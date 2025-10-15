@@ -24,8 +24,7 @@ function getTokenFromRequest(request) {
     return authHeader.substring(7);
   }
   
-  const cookies = cookie.parse(request.headers.get('cookie') || '');
-  return cookies.access_token || null;
+  return null;
 }
 
 async function authenticate(request) {
