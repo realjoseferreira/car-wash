@@ -13,7 +13,6 @@ import {
   hasPermission
 } from '@/lib/auth';
 import { v4 as uuidv4 } from 'uuid';
-import * as cookie from 'cookie';
 import nodemailer from 'nodemailer';
 import puppeteer from 'puppeteer';
 import { zonedTimeToUtc, format } from 'date-fns-tz';
