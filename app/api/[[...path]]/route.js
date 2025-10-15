@@ -471,22 +471,11 @@ export async function POST(request) {
       const accessToken = generateAccessToken({ userId: user.id });
       const refreshToken = generateRefreshToken({ userId: user.id });
       
-      const response = NextResponse.json({
+      return NextResponse.json({
         user: userWithTenants,
         accessToken,
         refreshToken
       });
-      
-      // Set httpOnly cookies
-      response.headers.set('Set-Cookie', cookie.serialize('access_token', accessToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: 15 * 60, // 15 minutes
-        path: '/'
-      }));
-      
-      return response;
     }
     
     // POST /auth/refresh
