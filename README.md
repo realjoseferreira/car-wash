@@ -1,65 +1,81 @@
-# 🚗 Espaço Braite - Sistema de Ordens de Serviço
+# 🚗 Espaço Braite - Service Order Management System
 
-Sistema SaaS multi-tenant para gerenciamento de lava-rápido e estética automotiva, desenvolvido com Next.js, PostgreSQL e autenticação JWT.
+**🇧🇷 Project developed by a Brazilian developer.**
+All technical details, examples, and data inside the system are in **Brazilian Portuguese**, since this SaaS was built specifically for car wash and automotive detailing businesses in Brazil.
 
-## 🎨 Características
+---
 
-- **Multi-tenant**: Cada lava-rápido tem sua própria conta isolada
-- **Autenticação JWT**: Login seguro com tokens de acesso e refresh
-- **RBAC**: 4 níveis de permissão (owner, manager, attendant, viewer)
-- **Dashboard**: Faturamento em tempo real (Hoje, 15 dias, 30 dias)
-- **Ordens de Serviço**: Criação e gerenciamento de O.S. completas
-- **Geração de PDF**: Download de O.S. em PDF com logo e branding
-- **Gestão de Clientes**: Cadastro completo com veículo e contato
-- **Catálogo de Serviços**: Preços e descrições personalizados
-- **Convites por Email**: Sistema de convite para novos membros (Nodemailer + Ethereal)
-- **Tema Braite**: Interface branca com azul #0071CE
-- **Timezone Brasil**: Todos os relatórios em America/Sao_Paulo
-- **Responsivo**: Funciona em desktop, tablet e celular
+## 🧩 Overview
 
-## 🛠️ Stack Tecnológica
+**Espaço Braite** is a **multi-tenant SaaS platform** for managing car wash and auto detailing shops.
+It provides complete control over **service orders, customers, team, payments, and reports**, all in a modern web environment built with **Next.js, PostgreSQL, and JWT authentication**.
 
-- **Frontend**: Next.js 14 (App Router), React 18, Tailwind CSS, shadcn/ui
-- **Backend**: Next.js API Routes, Node.js
-- **Banco de Dados**: PostgreSQL (Railway)
-- **Autenticação**: JWT (jsonwebtoken), bcryptjs
-- **PDF**: Puppeteer
-- **Email**: Nodemailer (Ethereal para dev)
+---
 
-## 📋 Pré-requisitos
+## 🎨 Features
 
-- Node.js 18+
-- PostgreSQL (Railway ou local)
-- Yarn
+* **Multi-tenant**: Each car wash has its own isolated account
+* **JWT Authentication**: Secure login with access and refresh tokens
+* **RBAC System**: 4 permission levels (owner, manager, attendant, viewer)
+* **Dashboard**: Real-time revenue analytics (Today, 15 days, 30 days)
+* **Service Orders (O.S.)**: Complete creation and management
+* **PDF Generation**: Download O.S. with company logo and branding
+* **Client Management**: Full registration including vehicle data
+* **Service Catalog**: Custom prices and descriptions per tenant
+* **Email Invitations**: Invite new team members (Nodemailer + Ethereal)
+* **Braite Theme**: Clean white interface with blue tone `#0071CE`
+* **Brazilian Timezone**: All reports use `America/Sao_Paulo`
+* **Responsive Design**: Works seamlessly on desktop, tablet, and mobile
 
-## 🚀 Instalação e Configuração
+---
 
-### 1. Clone e instale dependências
+## 🛠️ Tech Stack
+
+* **Frontend**: Next.js 14 (App Router), React 18, Tailwind CSS, shadcn/ui
+* **Backend**: Next.js API Routes (Node.js)
+* **Database**: PostgreSQL (Railway)
+* **Authentication**: JWT (`jsonwebtoken`), `bcryptjs`
+* **PDF Generation**: Puppeteer
+* **Email**: Nodemailer (Ethereal for development)
+
+---
+
+## 📋 Requirements
+
+* Node.js 18+
+* PostgreSQL (Railway or local instance)
+* Yarn
+
+---
+
+## 🚀 Installation & Setup
+
+### 1. Clone and install dependencies
 
 ```bash
 cd /app
 yarn install
 ```
 
-### 2. Configure as variáveis de ambiente
+### 2. Configure environment variables
 
-Copie o arquivo `.env.example` para `.env` e configure:
+Copy `.env.example` to `.env`:
 
 ```bash
 cp .env.example .env
 ```
 
-Edite o arquivo `.env`:
+Edit your `.env` file:
 
 ```env
-# Database (obrigatório)
+# Database (required)
 DATABASE_URL=postgresql://user:pass@host:5432/database
 
-# JWT (opcional - valores padrão incluídos)
+# JWT (optional - defaults included)
 JWT_SECRET=espaco-braite-jwt-secret-2024-production-change-this
 JWT_REFRESH_SECRET=espaco-braite-refresh-secret-2024-production-change-this
 
-# Email (opcional - usa Ethereal test account por padrão)
+# Email (optional - uses Ethereal by default)
 SMTP_HOST=
 SMTP_PORT=
 SMTP_USER=
@@ -71,167 +87,192 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
 ```
 
-### 3. Execute as migrações e seed
+### 3. Run migrations and seed
 
 ```bash
-# Via API (recomendado)
+# Recommended
 curl http://localhost:3000/api/setup
-
-# Ou aguarde o servidor iniciar e acesse:
-# http://localhost:3000/api/setup
 ```
 
-Isso criará:
-- Todas as tabelas PostgreSQL
-- Tenant demo: "Espaço Braite Demo"
-- Usuário admin: `admin1` / senha: `123` (email: admin1@braite.test)
-- 5 serviços de exemplo
-- 1 cliente de exemplo
-- 1 ordem paga de exemplo
+This will create:
 
-### 4. Inicie o servidor
+* All PostgreSQL tables
+* Demo tenant: “Espaço Braite Demo”
+* Admin user: `admin1` / password: `123` (`admin1@braite.test`)
+* Example services, client, and paid order
+
+### 4. Start the server
 
 ```bash
 yarn dev
-# Servidor rodará em http://localhost:3000
+# Server running at http://localhost:3000
 ```
 
-## 🔐 Credenciais Demo
+---
+
+## 🔐 Demo Credentials
 
 ```
-Usuário: admin1
-Senha: 123
+User: admin1
+Password: 123
 ```
 
-ou
+or
 
 ```
 Email: admin1@braite.test
-Senha: 123
+Password: 123
 ```
 
-## 📊 Estrutura do Banco de Dados
+---
 
-### Tabelas
+## 📊 Database Structure
 
-- `tenants` - Lava-rápidos (multi-tenant)
-- `users` - Usuários do sistema
-- `user_tenants` - Relação usuários ↔ tenants com roles
-- `clients` - Clientes (isolados por tenant)
-- `catalog_items` - Serviços do catálogo
-- `orders` - Ordens de serviço
-- `order_items` - Itens das ordens
-- `invite_tokens` - Convites pendentes (7 dias de validade)
-- `audit_logs` - Log de auditoria
+### Tables
+
+* `tenants` – Car wash locations (multi-tenant)
+* `users` – System users
+* `user_tenants` – User ↔ tenant relationship
+* `clients` – Customers (per tenant)
+* `catalog_items` – Service catalog
+* `orders` – Service orders
+* `order_items` – Order items
+* `invite_tokens` – Pending invitations (7 days expiration)
+* `audit_logs` – System logs
 
 ### Roles (RBAC)
 
-1. **owner**: Controle total
-2. **manager**: Gerencia O.S., serviços, equipe (exceto owner)
-3. **attendant**: Cria/edita O.S., marca pagamentos
-4. **viewer**: Apenas visualização
+1. **owner** – Full control
+2. **manager** – Manage O.S., services, and team (except owner)
+3. **attendant** – Create/edit O.S., mark payments
+4. **viewer** – Read-only access
 
-## 🎯 Funcionalidades Principais
+---
+
+## 🎯 Main Features
 
 ### Dashboard
-- **Card "Hoje"**: Faturamento do dia (timezone America/Sao_Paulo)
-- **Card "Últimos 15 Dias"**: Soma de ordens pagas nos últimos 15 dias
-- **Card "Últimos 30 Dias"**: Soma de ordens pagas nos últimos 30 dias
-- Lista de ordens recentes
 
-### Ordens de Serviço
-- Criação com múltiplos serviços
-- Seleção de cliente
-- Status: Pendente, Em Andamento, Concluído, Pago, Cancelado
-- Forma de pagamento
-- Observações
-- Download em PDF com logo Braite
+* “Hoje”: Daily revenue (America/Sao_Paulo timezone)
+* “Últimos 15 dias”: Total paid orders in the last 15 days
+* “Últimos 30 dias”: Total paid orders in the last 30 days
+* Recent orders list
 
-### Clientes
-- Cadastro completo
-- Dados do veículo (placa e modelo)
-- Histórico de ordens
+### Service Orders
 
-### Serviços
-- Nome, descrição, preço
-- Duração estimada
-- Catálogo por tenant
+* Create multiple services per order
+* Select client and vehicle
+* Status: Pending, In Progress, Completed, Paid, Canceled
+* Payment method and notes
+* PDF download with Braite branding
 
-### Equipe
-- Convite por email (token expira em 7 dias)
-- Gerenciamento de roles
-- Lista de membros
+### Clients
+
+* Full registration with vehicle info
+* Order history
+
+### Services
+
+* Name, description, price, estimated duration
+* Custom catalog per tenant
+
+### Team
+
+* Email invitation (expires in 7 days)
+* Role management
+* Member list
+
+---
 
 ## 📄 API Endpoints
 
-### Públicos
-- `POST /api/auth/login` - Login
-- `POST /api/auth/refresh` - Renovar token
-- `GET /api/setup` - Executar migrations + seed
+### Public
 
-### Protegidos (requer JWT)
-- `GET /api/me` - Dados do usuário logado
-- `GET /api/dashboard` - Dashboard analytics
-- `GET /api/clients` - Listar clientes
-- `POST /api/clients` - Criar cliente
-- `GET /api/services` - Listar serviços
-- `POST /api/services` - Criar serviço
-- `GET /api/orders` - Listar ordens
-- `POST /api/orders` - Criar ordem
-- `PUT /api/orders/:id` - Atualizar ordem
-- `GET /api/orders/:id/pdf` - Download PDF
-- `GET /api/team` - Listar equipe
-- `POST /api/team/invite` - Convidar membro
+* `POST /api/auth/login`
+* `POST /api/auth/refresh`
+* `GET /api/setup`
 
-## 🖼️ Logo e Branding
+### Protected (JWT required)
 
-O logo oficial da Espaço Braite está localizado em:
+* `GET /api/me`
+* `GET /api/dashboard`
+* `GET /api/clients`
+* `POST /api/clients`
+* `GET /api/services`
+* `POST /api/services`
+* `GET /api/orders`
+* `POST /api/orders`
+* `PUT /api/orders/:id`
+* `GET /api/orders/:id/pdf`
+* `GET /api/team`
+* `POST /api/team/invite`
+
+---
+
+## 🖼️ Logo & Branding
+
+Logo file:
+
 ```
 /public/assets/logo/teste.png
 ```
 
-É usado em:
-- Tela de login
-- Sidebar do dashboard
-- PDFs das ordens de serviço
+Used on:
 
-Cor primária Braite: `#0071CE`
+* Login screen
+* Dashboard sidebar
+* Service order PDFs
 
-## 📧 Sistema de Email
+Primary color: `#0071CE`
 
-Por padrão, usa **Ethereal** (email de teste) para convites.
+---
 
-Para produção, configure no `.env`:
+## 📧 Email System
+
+By default, uses **Ethereal (test email)**.
+For production, configure your SMTP in `.env`:
+
 ```env
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
-SMTP_USER=seu-email@gmail.com
-SMTP_PASS=sua-senha-app
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-app-password
 SMTP_FROM=noreply@espacobraite.com
 ```
 
+---
+
 ## 🐛 Troubleshooting
 
-### Erro de conexão PostgreSQL
-Verifique se o `DATABASE_URL` está correto e acessível.
+### PostgreSQL connection error
 
-### Migrations não executadas
-Execute manualmente:
+Check your `DATABASE_URL` string.
+
+### Migrations didn’t run
+
+Execute manually:
+
 ```bash
 curl http://localhost:3000/api/setup
 ```
 
-### PDF não gera
-Puppeteer precisa de dependências do sistema. Em produção, pode ser necessário instalar:
+### PDF not generating
+
+Install Puppeteer dependencies (for Linux):
+
 ```bash
 apt-get install -y chromium
 ```
 
+---
+
 ## 🔄 Timezone
 
-Todos os cálculos de faturamento usam timezone `America/Sao_Paulo` para garantir precisão nos relatórios.
+All revenue calculations are based on the **America/Sao_Paulo** timezone for accurate financial reports.
 
-## 📦 Dependências Principais
+---
+
+## 📦 Main Dependencies
 
 ```json
 {
@@ -247,27 +288,32 @@ Todos os cálculos de faturamento usam timezone `America/Sao_Paulo` para garanti
 }
 ```
 
-## 📝 Notas de Desenvolvimento
 
-- UUIDs são usados como chaves primárias (não ObjectID do MongoDB)
-- Tokens JWT expiram em 15 minutos (access) e 7 dias (refresh)
-- PDFs são gerados server-side com Puppeteer
-- Multi-tenant via `tenant_id` em todas as queries
-- RBAC checado em cada endpoint protegido
+## 🧠 Development Notes
 
-## 🚀 Deploy
-
-O sistema está pronto para deploy em:
-- Vercel (Next.js nativo)
-- Railway (com PostgreSQL)
-- AWS / Google Cloud
-
-Configure as variáveis de ambiente adequadamente no painel de deploy.
-
-## 📞 Suporte
-
-Sistema desenvolvido para Espaço Braite - Lava-Rápido e Estética Automotiva.
+* UUIDs used as primary keys
+* JWT tokens expire in 15 min (access) / 7 days (refresh)
+* PDFs generated server-side with Puppeteer
+* Multi-tenant via `tenant_id` in all queries
+* RBAC verified in every protected endpoint
 
 ---
 
-**Desenvolvido com Next.js 14 + PostgreSQL + Tailwind CSS**
+## 🚀 Deployment
+
+Ready for deployment on:
+
+* **Vercel** (Next.js native)
+* **Railway** (PostgreSQL)
+* **AWS / Google Cloud**
+
+Make sure to configure environment variables in your deployment dashboard.
+
+
+## 📞 Support
+
+System developed for **Espaço Braite — Car Wash & Auto Detailing (Brazil)**.
+Created by **José Ferreira 🇧🇷**
+
+
+**Built with Next.js 14 + PostgreSQL + Tailwind CSS**
